@@ -2,16 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        workspace: [src, examples/*]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -19,16 +15,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "18"
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
       - name: Lint
-        run: yarn workspace ${{ matrix.workspace }} lint
+        run: yarn lint
 
       - name: Test
-        run: yarn workspace ${{ matrix.workspace }} test
+        run: yarn test
 
       - name: Build
-        run: yarn workspace ${{ matrix.workspace }} build
+        run: yarn build

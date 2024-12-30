@@ -1,9 +1,7 @@
-name: Release
+name: Manual Release
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   release:
@@ -11,6 +9,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Ensure full history is fetched for Semantic Release
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -21,8 +21,36 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Run Release
+      - name: Verify Latest CI Run
+        uses: actions/github-script@v6
+        id: ci_check
+        with:
+          script: |
+            const workflow = 'CI'; // Name of your CI workflow file (e.g., ci.yml)
+            const { data: runs } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: workflow,
+              branch: 'main',
+              status: 'completed',
+              per_page: 1
+            });
+
+            if (runs.total_count === 0) {
+              throw new Error('No CI runs found for the main branch.');
+            }
+
+            const latestRun = runs.workflow_runs[0];
+            console.log(`Latest CI run status: ${latestRun.conclusion}`);
+
+            if (latestRun.conclusion !== 'success') {
+              throw new Error('Latest CI run was not successful. Aborting release.');
+            }
+
+            return latestRun.conclusion;
+
+      - name: Run Semantic Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # If publishing to npm
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn release
