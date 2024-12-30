@@ -1,35 +1,34 @@
 {
-  "name": "react-socket-relay-monorepo",
-  "main": "index.js",
-  "author": "Roland Chelwing <roland.chelwing@gmail.com>",
-  "license": "MIT",
-  "private": true,
-  "version": "1.0.0",
-  "workspaces": [
-    "src",
-    "examples/*"
-  ],
-  "scripts": {
-    "build": "yarn workspaces run build",
-    "test": "yarn workspaces run test",
-    "lint": "yarn workspaces run lint",
-    "release": "semantic-release",
-    "prepare": "husky",
-    "commitlint": "commitlint --edit \"$1\""
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.1",
-    "@semantic-release/npm": "^12.0.1",
-    "semantic-release": "^24.2.0",
+	"name": "react-socket-relay-monorepo",
+	"main": "index.js",
+	"author": "Roland Chelwing <roland.chelwing@gmail.com>",
+	"license": "MIT",
+	"private": true,
+	"version": "1.0.0",
+	"workspaces": [
+		"src",
+		"examples/*"
+	],
+	"scripts": {
+		"build": "yarn workspaces run build",
+		"test": "yarn workspaces run test",
+		"lint": "yarn workspaces run lint",
+		"release": "semantic-release",
+		"commitlint": "commitlint --edit \"$1\""
+	},
+	"devDependencies": {
+		"@commitlint/cli": "^19.6.1",
+		"@commitlint/config-conventional": "^19.6.0",
+		"@semantic-release/changelog": "^6.0.3",
+		"@semantic-release/git": "^10.0.1",
+		"@semantic-release/github": "^11.0.1",
+		"@semantic-release/npm": "^12.0.1",
+		"semantic-release": "^24.2.0",
 		"prettier": "^3.4.2",
 		"prettier-plugin-organize-imports": "^4.1.0",
-    "husky": "^9.1.7"
-  },
-  "engines": {
-    "node": ">=v22.12.0"
-  }
+		"husky": "^9.1.7"
+	},
+	"engines": {
+		"node": ">=v22.12.0"
+	}
 }
